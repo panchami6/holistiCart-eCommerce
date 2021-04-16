@@ -149,7 +149,7 @@ export function ProductListing({ setRoute }) {
         </fieldset>
       </div>
       <div
-        style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
+         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center"}}
       >
         {filteredData.map((item) => (
           <div
@@ -159,7 +159,7 @@ export function ProductListing({ setRoute }) {
               border: "1px solid #4B5563",
               borderRadius: "0 0 0.5rem 0.5rem",
               margin: "1rem",
-              maxWidth: "40%",
+              maxWidth: "250px",
               padding: "0 0 1rem"
             }}
           >
