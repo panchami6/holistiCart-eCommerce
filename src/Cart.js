@@ -1,6 +1,5 @@
 import { useCart } from "./cart-context";
-// import { useWishlist } from "./wishlist-context";
-// import { useState } from "react";
+import "./styles.css";
 
 const getAmount = (acc, items) => {
   return acc + items.price * items.quantity;
@@ -8,11 +7,9 @@ const getAmount = (acc, items) => {
 
 export function Cart() {
   const { itemsInCart, setItemsInCart } = useCart();
-  // const { setItemsInWishList } = useWishlist();
-  // const [quantity, setQuantity] = useState(1);
   console.log(itemsInCart);
   return (
-    <div style={{ textAlign: "center" }}>
+    <div class="cart">
       <h2>Cart</h2>
       <h3> Total: {itemsInCart.reduce(getAmount, 0)}</h3>
       <div
@@ -22,31 +19,29 @@ export function Cart() {
           justifyContent: "center"
         }}
       >
-        {itemsInCart.map((item) => (
-          <div
+      {
+        itemsInCart.map((item) => (
+         <div class="products-cart"
             key={item.id}
-            style={{
-              textAlign: "center",
-              border: "1px solid #4B5563",
-              borderRadius: "0 0 0.5rem 0.5rem",
-              margin: "1rem",
-              maxWidth: "40%",
-              padding: "0 0 1rem"
-            }}
           >
-            <img src={item.image} width="100%" height="auto" alt={item.name} />
+          {console.log("item in cart", item)}
+            <div class="cart-image">
+              <img class="img-cart" src={item.image} width="100%" height="auto" alt={item.name} />
+            </div> 
+            <div class="cart-product-details">
             <h3> {item.name} </h3>
-            <div>Rs. {item.price}</div>
-            {item.inStock && <div> In Stock </div>}
-            {!item.inStock && <div> Out of Stock </div>}
-            <div>{item.level}</div>
+            <p>Rs. {item.price}</p>
+            {item.inStock && <p> In Stock </p>}
+            {!item.inStock && <p> Out of Stock </p>}
+            <p>{item.level}</p>
             {item.fastDelivery ? (
-              <div> Fast Delivery </div>
+              <p> Fast Delivery </p>
             ) : (
-              <div> 3 days minimum </div>
+              <p> 3 days minimum </p>
             )}
 
-            <button
+            <div class="cart-quantity">
+            <button class="cart-quantiy-btn"
               onClick={() => {
                 setItemsInCart((prev) =>
                   prev.map((items) =>
@@ -60,7 +55,7 @@ export function Cart() {
               +
             </button>
             {item.quantity}
-            <button
+            <button class="cart-quantiy-btn"
               disabled={item.quantity < 2}
               onClick={() => {
                 setItemsInCart((prev) =>
@@ -74,7 +69,9 @@ export function Cart() {
             >
               -
             </button>
-            <button
+            </div>
+            <div class="cart-remove">
+            <button class="cart-btn-remove"
               onClick={() =>
                 setItemsInCart((prev) =>
                   prev.filter((items) => items.id !== item.id)
@@ -83,9 +80,12 @@ export function Cart() {
             >
               Remove
             </button>
-            <button>Checkout</button>
+            </div>
+            </div>
           </div>
-        ))}
+          ) 
+        )
+        }
       </div>
     </div>
   );

@@ -1,25 +1,29 @@
 import React, { useState } from "react";
 import "./styles.css";
-
+import { Routes, Route, Link } from 'react-router-dom';
 import { ProductListing } from "./Products";
 import { Cart } from "./Cart";
 import { Wishlist } from "./WishList";
+import NotFound from "./404";
 
 export default function App() {
-  const [route, setRoute] = useState("filteredData");
-
+  
   return (
-    <>
-      <button onClick={() => setRoute("filteredData")}>Products</button>
-      <button onClick={() => setRoute("cart")}>Cart</button>
-      {/* <button onClick={() => setRoute("checkout")}>Checkout</button> */}
-      <button onClick={() => setRoute("wishlist")}>Wishlist</button>
-
-      {/* <CartHeader /> */}
-      {/* {route === "checkout" && <Checkout />} */}
-      {route === "cart" && <Cart />}
-      {route === "wishlist" && <Wishlist setRoute={setRoute} />}
-      {route === "filteredData" && <ProductListing setRoute={setRoute} />}
-    </>
+    
+    <div className="App">
+      <nav className="navigation">
+  
+        <Link className="nav-link" to="/"> Home </Link> ||
+        <Link className="nav-link" to="/Products"> Products </Link> ||
+        <Link className="nav-link" to="/Cart">Cart </Link> ||
+        <Link className="nav-link" to="/WishList">WishList </Link>
+      </nav>
+      <Routes>
+        <Route path="/Cart" element={<Cart />} />
+        <Route path="/Products" element={<ProductListing />} />
+        <Route path="/WishList" element={<Wishlist />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </div>
   );
 }

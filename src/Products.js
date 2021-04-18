@@ -1,13 +1,15 @@
 import React, { useReducer, useState } from "react";
+import "./styles.css";
 import { data } from "./server";
 import { useCart } from "./cart-context";
 import { useWishlist } from "./wishlist-context";
+import { Routes, Route, Link } from 'react-router-dom';
 
 const checkItem = (cartItems, id) => {
   return cartItems.find((item) => item.id === id);
 };
 
-export function ProductListing({ setRoute }) {
+export function ProductListing() {
   const { itemsInCart, setItemsInCart } = useCart();
   const { setItemsInWishList } = useWishlist();
   const [search, setSearch] = useState("");
@@ -34,11 +36,6 @@ export function ProductListing({ setRoute }) {
             ...state,
             sortBy: action.payload
           };
-        // case "SEARCH_PRODUCT":
-        //   return {
-        //     ...state,
-        //     searchBy: action.payload
-        //   };
         default:
           return state;
       }
@@ -47,7 +44,6 @@ export function ProductListing({ setRoute }) {
       showInventoryAll: true,
       showFastDeliveryOnly: false,
       sortBy: null
-      // SearchBy: null
     }
   );
 
@@ -80,28 +76,24 @@ export function ProductListing({ setRoute }) {
     showInventoryAll
   });
 
-  // const searchHandler = (e) => {
-  // if (e.keyCode === 13) {
-  //   dispatch({ type: "SEARCH_PRODUCT", payload: search });
-  //   setSearch("");
-  // }
-  // };
-
   return (
     <div>
-      <input
-        className="txt-input"
-        type="text"
-        value={search}
-        name="searchBy"
-        onChange={(e) => setSearch(e.target.value)}
-        // onKeyDown={searchHandler}
-        placeholder="Search Products"
-      />
+      <div class="search"
+      >
+        <input
+          className="input-search" 
+          type="text"
+          value={search}
+          name="searchBy"
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search Products"
+        />
+        <i class="fas fa-search"></i> 
+      </div>
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
-        <fieldset style={{ maxHeight: "10vh" }}>
+        <fieldset class="filters">
           <legend>Sort By</legend>
           <label>
             <input
@@ -127,7 +119,7 @@ export function ProductListing({ setRoute }) {
           </label>
         </fieldset>
 
-        <fieldset style={{ maxHeight: "10vh" }}>
+        <fieldset class="filters">
           <legend> Filters </legend>
           <label>
             <input
@@ -152,16 +144,8 @@ export function ProductListing({ setRoute }) {
          style={{ display: "flex", flexWrap: "wrap", justifyContent: "center"}}
       >
         {filteredData.map((item) => (
-          <div
+          <div class="products"
             key={item.id}
-            style={{
-              textAlign: "center",
-              border: "1px solid #4B5563",
-              borderRadius: "0 0 0.5rem 0.5rem",
-              margin: "1rem",
-              maxWidth: "250px",
-              padding: "0 0 1rem"
-            }}
           >
             <img
               src={item.image}
@@ -179,17 +163,19 @@ export function ProductListing({ setRoute }) {
             ) : (
               <div> 3 days minimum </div>
             )}
-
-            <button
+            
+            <button class="product-btn"
+            disabled={!item.inStock}
               onClick={() => {
                 checkItem(itemsInCart, item.id)
-                  ? setRoute("cart")
+                  ? <Link to="/Products">Products</Link>
                   : setItemsInCart((items) => [...items, item]);
               }}
             >
-              {checkItem(itemsInCart, item.id) ? "Go to Cart" : "Add to cart"}
+              {checkItem(itemsInCart, item.id) ? "Item in cart" : "Add to cart"}
             </button>
-            <button
+            
+            <button class="product-btn"
               onClick={() => setItemsInWishList((items) => [...items, item])}
             >
               Wishlist

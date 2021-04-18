@@ -8,12 +8,15 @@
     "core-js": "^3.10.1",
     "faker": "^5.5.2",
     "font-awesome": "4.7.0",
+    "history": "^5.0.0",
     "mirage.js": "1.0.0",
     "miragejs": "0.1.41",
     "mirajs": "1.1.27",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-live-search": "1.0.2",
+    "react-router": "^6.0.0-beta.0",
+    "react-router-dom": "^6.0.0-beta.0",
     "react-scripts": "^4.0.3"
   },
   "devDependencies": {
