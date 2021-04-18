@@ -14,13 +14,13 @@ export default function App() {
     <div className="App">
       <nav className="navigation">
   
-        <Link className="nav-link" to="/Home"> Home </Link> ||
+        <Link className="nav-link" to="/"> Home </Link> ||
         <Link className="nav-link" to="/Products"> Products </Link> ||
         <Link className="nav-link" to="/Cart">Cart </Link> ||
         <Link className="nav-link" to="/WishList">WishList </Link>
       </nav>
       <Routes>
-        <Route path = "/Home" element = {<Home />} />
+        <Route path = "/" element = {<Home />} />
         <Route path="/Cart" element={<Cart />} />
         <Route path="/Products" element={<ProductListing />} />
         <Route path="/WishList" element={<Wishlist />} />
