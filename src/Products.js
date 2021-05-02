@@ -1,18 +1,34 @@
-import React, { useReducer, useState } from "react";
+import React, { useReducer, useState, useEffect } from "react";
 import "./styles.css";
-import { data } from "./server";
+// import { data } from "./server";
 import { useCart } from "./cart-context";
 import { useWishlist } from "./wishlist-context";
-import { Routes, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import axios from "axios";
 
-const checkItem = (cartItems, id) => {
+export const checkItemInCart = (cartItems, id) => {
   return cartItems.find((item) => item.id === id);
+};
+
+export const checkItemInWishlist = (wishlistItems, id) => {
+  return wishlistItems.find((item) => item.id === id);
 };
 
 export function ProductListing() {
   const { itemsInCart, setItemsInCart } = useCart();
-  const { setItemsInWishList } = useWishlist();
+  const { itemsInWishList, setItemsInWishList } = useWishlist();
   const [search, setSearch] = useState("");
+  const [showProducts, setShowProducts] = useState([]);
+  const [loader, setLoader] = useState(false);
+
+  useEffect(() => {
+    (async function () {
+      setLoader(true);
+      const response = await axios.get("https://holisticart.panchami6.repl.co/products");
+      setLoader(false);
+      setShowProducts(response.data.dataproducts);
+    })();
+  }, [showProducts===[]]);
 
   const [
     { showInventoryAll, showFastDeliveryOnly, sortBy },
@@ -70,7 +86,7 @@ export function ProductListing() {
       .filter((product) => product.name.toLowerCase().includes(search));
   }
 
-  const sortedData = getSortedData(data, sortBy);
+  const sortedData = getSortedData(showProducts, sortBy);
   let filteredData = getFilteredData(sortedData, {
     showFastDeliveryOnly,
     showInventoryAll
@@ -90,6 +106,7 @@ export function ProductListing() {
         />
         <i class="fas fa-search"></i> 
       </div>
+      {loader && <h1 style={{ textAlign: "center" }}>Loading...</h1>}
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
@@ -153,6 +170,7 @@ export function ProductListing() {
               height="auto"
               alt={item.productName}
             />
+            {console.log(typeof item.image)}
             <h3> {item.name} </h3>
             <div>Rs. {item.price}</div>
             {item.inStock && <div> In Stock </div>}
@@ -164,22 +182,28 @@ export function ProductListing() {
               <div> 3 days minimum </div>
             )}
             
-            <button class="product-btn"
+            <button className="product-btn"
             disabled={!item.inStock}
               onClick={() => {
-                checkItem(itemsInCart, item.id)
-                  ? <Link to="/Products">Products</Link>
-                  : setItemsInCart((items) => [...items, item]);
+                checkItemInCart(itemsInCart, item.id) ?
+                  
+                  <Link to="/Products">Products</Link>
+                  
+                :setItemsInCart((items) => [...items, item]);
               }}
             >
-              {checkItem(itemsInCart, item.id) ? "Item in cart" : "Add to cart"}
+              {checkItemInCart(itemsInCart, item.id) ? "Item In cart" : "Add to cart"}
             </button>
             
-            <button class="product-btn"
-              onClick={() => setItemsInWishList((items) => [...items, item])}
-            >
-              Wishlist
-            </button>
+            {/* <button className="wishlist-btn"
+              
+            > */}
+              <i onClick={() =>{
+                checkItemInWishlist(itemsInWishList, item.id) ? setItemsInWishList((prev) =>
+                  prev.filter((items) => items.id !== item.id)
+                ) :
+                setItemsInWishList((items) => [...items, item])}} className={checkItemInWishlist(itemsInWishList, item.id) ? "fas fa-heart wishlist-btn" : "far fa-heart wishlist-btn"}></i>
+            {/* </button> */}
           </div>
         ))}
       </div>

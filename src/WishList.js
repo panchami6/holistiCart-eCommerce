@@ -26,7 +26,7 @@ export function Wishlist() {
             ) : (
               <div> 3 days minimum </div>
             )}
-            <button
+            <button disabled={!item.inStock}
               onClick={() => {
                 setItemsInCart((items) => [...items, item]);
                 setItemsInWishList((prev) =>

@@ -1,0 +1,44 @@
+.navigation{
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    padding: 0rem 1rem;
+    background-color: black;
+    height: 10vh;
+  }
+  
+  .nav-link{
+    font-size:larger;
+    position: relative;
+    color: rgb(245, 241, 241);
+    text-decoration: none;
+    padding: 0rem 0.5rem;
+  }
+  
+  .nav-Header{
+    font-size:23px;
+    padding: 0;
+  }
+
+.cart-wishlist-quantity{
+    position: absolute;
+    right: 0;
+    bottom: 8px;
+    font-size: small;
+    background-color: red;
+    padding: 0px 2px;
+    border-radius: 50%;
+    border: 0.1px solid white;
+  }
+
+  .fa-spa{
+    color: rgb(245, 241, 241);
+    font-size: xx-large;
+  }
+  
+  .fa-heart{
+    color: red;
+    cursor: pointer;
+  }
+
+  

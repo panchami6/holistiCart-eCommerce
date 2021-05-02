@@ -1,4 +1,6 @@
 import { useCart } from "./cart-context";
+import snackbar from "./Components/snackbar";
+import {checkItemInCart} from "./Products";
 import "./styles.css";
 
 const getAmount = (acc, items) => {
@@ -10,7 +12,8 @@ export function Cart() {
   console.log(itemsInCart);
   return (
     <div class="cart">
-      <h2>Cart</h2>
+      <h2>Cart</h2> 
+      
       <h3> Total: {itemsInCart.reduce(getAmount, 0)}</h3>
       <div
         style={{
@@ -20,11 +23,13 @@ export function Cart() {
         }}
       >
       {
-        itemsInCart.map((item) => (
+        itemsInCart.map((item) => 
+        (
+        
          <div class="products-cart"
             key={item.id}
           >
-          {console.log("item in cart", item)}
+          {/* {console.log("item in cart", item)} */}
             <div class="cart-image">
               <img class="img-cart" src={item.image} width="100%" height="auto" alt={item.name} />
             </div> 
@@ -72,21 +77,22 @@ export function Cart() {
             </div>
             <div class="cart-remove">
             <button class="cart-btn-remove"
-              onClick={() =>
+              onClick={() => {
+                <snackbar />
                 setItemsInCart((prev) =>
                   prev.filter((items) => items.id !== item.id)
                 )
+              }
               }
             >
               Remove
             </button>
             </div>
             </div>
+        
           </div>
-          ) 
-        )
-        }
-      </div>
-    </div>
-  );
-}
+        ) )} 
+        </div>
+        </div>
+  )}
+      

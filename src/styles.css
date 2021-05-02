@@ -11,20 +11,6 @@
   text-align: center;
 }
 
-.navigation{
-  display: flex;
-  justify-content:space-evenly;
-  align-items: center;
-  padding-left: 25rem;
-  background-color: black;
-  height: 8vh;
-}
-
-.nav-link{
-  color: rgb(228, 226, 226);
-  text-decoration: none;
-}
-
 .input-search{
   position:relative;
   border: 1px solid black;
@@ -38,11 +24,12 @@
 .fa-search{
   position: absolute;
   left: 480px;
-  top: 80px;
+  top: 94px;
   color: rgb(124, 122, 122);
 }
 
 .products{
+  position: relative;
   text-align: center;
   border: 1px solid black;
   border-radius: 0 0 0.5rem 0.5rem;
@@ -57,6 +44,13 @@
   padding: 0.3rem 0.2rem; 
   text-align: center;
   border-radius: 0.3rem;
+}
+
+.wishlist-btn{
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border: none;
 }
 
 .filters{
@@ -140,5 +134,9 @@
   min-height: 100%;
 }
 
+.cart-wishlist-quantity{
+  position: absolute;
+  right: 1rem;
+}
 
 

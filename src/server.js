@@ -7,8 +7,6 @@ export const data = [...Array(50)].map((item) => ({
   name: faker.commerce.productName(),
   image: faker.random.image(),
   price: Number(faker.commerce.price()),
-  material: faker.commerce.productMaterial(),
-  brand: faker.lorem.word(),
   inStock: faker.datatype.boolean(),
   fastDelivery: faker.datatype.boolean(),
   ratings: faker.random.arrayElement([1, 2, 3, 4, 5]),

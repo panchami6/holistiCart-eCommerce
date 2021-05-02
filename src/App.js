@@ -6,19 +6,26 @@ import { Cart } from "./Cart";
 import { Wishlist } from "./WishList";
 import NotFound from "./404";
 import Home from "./Home";
-
+import { NavigationBar } from "./Components/Navigation/navigationBar";
+ 
 export default function App() {
   
   return (
     
     <div className="App">
-      <nav className="navigation">
-  
-        <Link className="nav-link" to="/"> Home </Link> ||
-        <Link className="nav-link" to="/Products"> Products </Link> ||
-        <Link className="nav-link" to="/Cart">Cart </Link> ||
-        <Link className="nav-link" to="/WishList">WishList </Link>
-      </nav>
+      {/* <nav className="navigation">
+        <div className="nav-Header" >
+        <i class="fas fa-spa"></i>
+        <Link className="nav-link nav-header" to="/"> HolistiCart</Link>
+        </div>
+        <div className="nav-links">
+        {/* <Link className="nav-link" to="/"> Home </Link> || */}
+        {/* <Link className="nav-link" to="/Products"> Products </Link> 
+        <Link className="nav-link" to="/Cart"><i class="fas fa-shopping-cart"></i></Link> 
+        <Link className="nav-link" to="/WishList"><i class="fas fa-heart"></i></Link>
+        </div> */}
+      {/* </nav> */}
+      <NavigationBar />
       <Routes>
         <Route path = "/" element = {<Home />} />
         <Route path="/Cart" element={<Cart />} />
