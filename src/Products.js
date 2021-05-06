@@ -6,12 +6,12 @@ import { useWishlist } from "./wishlist-context";
 import { Link } from 'react-router-dom';
 import axios from "axios";
 
-export const checkItemInCart = (cartItems, id) => {
-  return cartItems.find((item) => item.id === id);
+export const checkItemInCart = (cartItems, _id) => {
+  return cartItems.find((item) => item._id === _id);
 };
 
-export const checkItemInWishlist = (wishlistItems, id) => {
-  return wishlistItems.find((item) => item.id === id);
+export const checkItemInWishlist = (wishlistItems, _id) => {
+  return wishlistItems.find((item) => item._id === _id);
 };
 
 export function ProductListing() {
@@ -26,7 +26,7 @@ export function ProductListing() {
       setLoader(true);
       const response = await axios.get("https://holisticart.panchami6.repl.co/products");
       setLoader(false);
-      setShowProducts(response.data.dataproducts);
+      setShowProducts(response.data.products);
     })();
   }, [showProducts===[]]);
 
@@ -162,7 +162,7 @@ export function ProductListing() {
       >
         {filteredData.map((item) => (
           <div class="products"
-            key={item.id}
+            key={item._id}
           >
             <img
               src={item.image}
@@ -185,24 +185,24 @@ export function ProductListing() {
             <button className="product-btn"
             disabled={!item.inStock}
               onClick={() => {
-                checkItemInCart(itemsInCart, item.id) ?
+                checkItemInCart(itemsInCart, item._id) ?
                   
                   <Link to="/Products">Products</Link>
                   
                 :setItemsInCart((items) => [...items, item]);
               }}
             >
-              {checkItemInCart(itemsInCart, item.id) ? "Item In cart" : "Add to cart"}
+              {checkItemInCart(itemsInCart, item._id) ? "Item In cart" : "Add to cart"}
             </button>
             
             {/* <button className="wishlist-btn"
               
             > */}
               <i onClick={() =>{
-                checkItemInWishlist(itemsInWishList, item.id) ? setItemsInWishList((prev) =>
-                  prev.filter((items) => items.id !== item.id)
+                checkItemInWishlist(itemsInWishList, item._id) ? setItemsInWishList((prev) =>
+                  prev.filter((items) => items._id !== item._id)
                 ) :
-                setItemsInWishList((items) => [...items, item])}} className={checkItemInWishlist(itemsInWishList, item.id) ? "fas fa-heart wishlist-btn" : "far fa-heart wishlist-btn"}></i>
+                setItemsInWishList((items) => [...items, item])}} className={checkItemInWishlist(itemsInWishList, item._id) ? "fas fa-heart wishlist-btn" : "far fa-heart wishlist-btn"}></i>
             {/* </button> */}
           </div>
         ))}

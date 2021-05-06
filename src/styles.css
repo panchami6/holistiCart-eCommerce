@@ -139,4 +139,13 @@
   right: 1rem;
 }
 
+.wishlist-buttons{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.move-to-cart{
+  padding: 1rem;
+}
+
 

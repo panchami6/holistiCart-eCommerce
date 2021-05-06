@@ -12,10 +12,13 @@ export function Wishlist() {
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
         {itemsInWishList.map((item) => (
-          <div class="products-wishlist"
-            key={item.id}
+          <div class="products-cart"
+            key={item._id}
           >
-            <img src={item.image} width="100%" height="auto" alt={item.name} />
+            <div class="cart-image">
+            <img class="img-cart" src={item.image} width="100%" height="auto" alt={item.name} />
+            </div>
+            <div class="cart-product-details">
             <h3> {item.name} </h3>
             <div>Rs. {item.price}</div>
             {item.inStock && <div> In Stock </div>}
@@ -26,25 +29,32 @@ export function Wishlist() {
             ) : (
               <div> 3 days minimum </div>
             )}
+            <div class="wishlist-buttons">
+            <div class="move-to-cart">
             <button disabled={!item.inStock}
               onClick={() => {
                 setItemsInCart((items) => [...items, item]);
                 setItemsInWishList((prev) =>
-                  prev.filter((items) => items.id !== item.id)
+                  prev.filter((items) => items._id !== item._id)
                 );
               }}
             >
               Move to Cart
             </button>
-            <button
+            </div>
+            <div className="cart-remove">
+            <button className="cart-btn-remove"
               onClick={() =>
                 setItemsInWishList((prev) =>
-                  prev.filter((items) => items.id !== item.id)
+                  prev.filter((items) => items._id !== item._id)
                 )
               }
             >
               Remove
             </button>
+            </div>
+            </div>
+            </div>
           </div>
         ))}
       </div>
