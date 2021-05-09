@@ -1,6 +1,5 @@
-import {useState} from "react";
-import { useCart } from "../../cart-context";
-import { useWishlist } from "../../wishlist-context";
+import { useCart } from "../../Context/cart-context";
+import { useWishlist } from "../../Context/wishlist-context";
 import { Link } from "react-router-dom";
 import "./nav.css";
 
