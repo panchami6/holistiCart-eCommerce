@@ -1,13 +1,52 @@
+import {useState, useEffect} from "react";
 import { useCart } from "../Context/cart-context";
 import { useWishlist } from "../Context/wishlist-context";
+import axios from "axios";
+import {checkItemInCart} from "./Products";
+import "../styles.css";
+import "./home.css";
+
 
 export function Wishlist() {
-  const { setItemsInCart } = useCart();
+  const { itemsInCart, setItemsInCart } = useCart();
   const { itemsInWishList, setItemsInWishList } = useWishlist();
+
+  const cartApi = "https://holisticart.panchami6.repl.co/cart";
+  const wishlistApi = "https://holisticart.panchami6.repl.co/wishlist";
+
+  useEffect(() => {
+    (async function () {
+      const response = await axios.get(wishlistApi);
+      setItemsInWishList(response.data.wishlist);
+    })();
+  }, []);
+
+  const moveToCart = async (item) => {
+    try {
+        removeFromWishlist(item)
+        await axios.post(cartApi, { _id:item._id});      
+        {
+          setItemsInCart((items) => [...items, item]);
+          // setItemsInWishList((prev) => prev.filter((items) => items._id !== item._id));
+        }
+    } catch (error) {
+        console.error(error);
+    }
+ }
+
+ 
+ const removeFromWishlist = async (item) => {
+  try{
+   await axios.delete(`${wishlistApi}/${item._id}`);
+   setItemsInWishList((prev) => prev.filter((items) => items._id !== item._id));
+  } catch(error){
+   console.error(error);
+  }
+}
 
   return (
     <div style={{ textAlign: "center" }}>
-      <h2>Wishlist</h2>
+      <h2 style={{marginTop: "1rem"}}>Wishlist</h2>
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
@@ -31,23 +70,28 @@ export function Wishlist() {
             )}
             <div class="wishlist-buttons">
             <div class="move-to-cart">
-            <button disabled={!item.inStock}
-              onClick={() => {
-                setItemsInCart((items) => [...items, item]);
-                setItemsInWishList((prev) =>
-                  prev.filter((items) => items._id !== item._id)
-                );
-              }}
+            <button className = {item.inStock? "btn-wishlist-move-remove": "btn-disabled"}
+              disabled={!item.inStock}
+              onClick={() =>{
+                if(!checkItemInCart(itemsInCart, item._id)) moveToCart(item)
+              } 
+              // {
+              //   setItemsInCart((items) => [...items, item]);
+              //   setItemsInWishList((prev) =>
+              //     prev.filter((items) => items._id !== item._id)
+              //   );
+              // }
+              }
             >
-              Move to Cart
+              {checkItemInCart(itemsInCart, item._id) ? "Item In cart" : "Move to Cart"}
             </button>
             </div>
             <div className="cart-remove">
-            <button className="cart-btn-remove"
-              onClick={() =>
-                setItemsInWishList((prev) =>
-                  prev.filter((items) => items._id !== item._id)
-                )
+            <button className = "btn-wishlist-move-remove"
+              onClick={() => removeFromWishlist(item)
+                // setItemsInWishList((prev) =>
+                //   prev.filter((items) => items._id !== item._id)
+                // )
               }
             >
               Remove

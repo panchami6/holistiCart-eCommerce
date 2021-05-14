@@ -10,7 +10,7 @@ export default function Home() {
                 </div>
                 <div class="landing-page-shop">
                     <h2>Explore the fitness world</h2>
-                    <Link className="nav-link" to="/Products"> <button>Shop now</button> </Link> 
+                    <Link className="nav-link" to="/Products"> <button className="btn-primary">Shop now</button> </Link> 
                 </div>
             </div>
         </div>

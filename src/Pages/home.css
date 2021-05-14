@@ -13,18 +13,37 @@
 
 .landing-page-shop{
     margin-top: 4.5rem;
-    border: 1px solid black;
+    box-shadow: 5px 5px 8px black;
     height: 250px;
     position: absolute;
     right: 10rem;
     top: 6rem;
-    padding-top: 5rem;
-    background-color: grey;
+    padding: 5rem 1rem;
+    background-color: rgb(165, 164, 164);
 }
 
-.landing-page-shop button{
+.landing-page-shop h2{
+    color: black ;
+}
+
+.btn-primary{
+    background-color: #AF0F0F;
+    color: #f0d8d8;
+    padding: 4px 10px;
     margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 0.3rem;
+    border: 1px solid #AF0F0F;
+    border-radius: 10px;
     cursor: pointer;
+    transition: font-size 0.1s ease-in-out;
+}
+
+.btn-primary:hover{
+    font-size: 14px;
+}
+
+.btn-disabled{
+    padding: 4px 10px;
+    margin-top: 1rem;
+    border: 1px solid rgb(175, 172, 172);
+    border-radius: 10px;
 }

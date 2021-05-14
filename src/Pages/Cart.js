@@ -1,13 +1,57 @@
 import { useCart } from "../Context/cart-context";
 import "../styles.css";
+import {useState, useEffect} from "react"
+import axios from "axios";
 
 const getAmount = (acc, items) => {
-  return acc + items.price * items.quantity;
+  return acc + parseInt(items.price,10) * parseInt(items.quantity,10);
 };
 
 export function Cart() {
   const { itemsInCart, setItemsInCart } = useCart();
-  console.log(itemsInCart);
+  // const [showCart, setShowCart] = useState([]);
+
+  const cartApi = "https://holisticart.panchami6.repl.co/cart";
+  // const wishlistApi = "https://holisticart.panchami6.repl.co/wishlist";
+
+  useEffect(() => {
+    (async function () {
+      const response = await axios.get(cartApi);
+      setItemsInCart(response.data.cart);
+    })();
+  }, []);
+
+  const deleteCartItem = async (item) => {
+    try {
+        await axios.delete(`${cartApi}/${item._id}`);
+        setItemsInCart((prev) =>
+          prev.filter((items) => items._id !== item._id))
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+const increaseQty = async (item) => {
+    try {
+        await axios.post(`${cartApi}/${item._id}`);
+        setItemsInCart((prev) => prev.map((items) => items._id === item._id? 
+        { ...items, quantity: items.quantity + 1 }: items));
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const decreaseQty = async (item) => {
+    try {
+        await axios.post(`${cartApi}/${item._id}`);
+        setItemsInCart((prev) => prev.map((items) => items._id === item._id? 
+        { ...items, quantity: items.quantity - 1 }: items));
+    } catch (error) {
+        console.log(error);
+    }
+}
+
   return (
     <div class="cart">
       <h2>Cart</h2> 
@@ -44,42 +88,48 @@ export function Cart() {
 
             <div class="cart-quantity">
             <button class="cart-quantiy-btn"
-              onClick={() => {
-                setItemsInCart((prev) =>
-                  prev.map((items) =>
-                    items._id === item._id
-                      ? { ...items, quantity: items.quantity + 1 }
-                      : items
-                  )
-                );
-              }}
+              onClick={() => increaseQty(item)
+              // {
+              //   setItemsInCart((prev) =>
+              //     prev.map((items) =>
+              //       items._id === item._id
+              //         ? { ...items, quantity: items.quantity + 1 }
+              //         : items
+              //     )
+              //   );
+              // }
+              }
             >
               +
             </button>
             {item.quantity}
             <button class="cart-quantiy-btn"
               disabled={item.quantity < 2}
-              onClick={() => {
-                setItemsInCart((prev) =>
-                  prev.map((items) =>
-                    items._id === item._id
-                      ? { ...items, quantity: items.quantity - 1 }
-                      : items
-                  )
-                );
-              }}
+              onClick={() => decreaseQty(item)
+              // {
+              //   setItemsInCart((prev) =>
+              //     prev.map((items) =>
+              //       items._id === item._id
+              //         ? { ...items, quantity: items.quantity - 1 }
+              //         : items
+              //     )
+              //   );
+              // }
+              }
             >
               -
             </button>
             </div>
             <div className="cart-remove">
             <button class="cart-btn-remove"
-              onClick={() => {
-                <snackbar />
-                setItemsInCart((prev) =>
-                  prev.filter((items) => items._id !== item._id)
-                )
-              }
+              onClick={() => deleteCartItem(item)
+              // {
+              //   // <snackbar />
+                
+              //   setItemsInCart((prev) =>
+              //     prev.filter((items) => items._id !== item._id)
+              //   )
+              // }
               }
             >
               Remove

@@ -16,9 +16,9 @@ export default function App() {
       <NavigationBar />
       <Routes>
         <Route path = "/" element = {<Home />} />
-        <Route path="/Cart" element={<Cart />} />
-        <Route path="/Products" element={<ProductListing />} />
-        <Route path="/WishList" element={<Wishlist />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/products" element={<ProductListing />} />
+        <Route path="/wishList" element={<Wishlist />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

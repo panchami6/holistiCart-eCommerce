@@ -1,5 +1,6 @@
 import React, { useReducer, useState, useEffect } from "react";
-import "../styles.css"
+import "../styles.css";
+import "./home.css";
 import { useCart } from "../Context/cart-context";
 import { useWishlist } from "../Context/wishlist-context";
 import { Link } from 'react-router-dom';
@@ -20,14 +21,47 @@ export function ProductListing() {
   const [showProducts, setShowProducts] = useState([]);
   const [loader, setLoader] = useState(false);
 
+  const api = "https://holisticart.panchami6.repl.co/products";
+  const cartApi = "https://holisticart.panchami6.repl.co/cart";
+  const wishlistApi = "https://holisticart.panchami6.repl.co/wishlist";
+
   useEffect(() => {
     (async function () {
       setLoader(true);
-      const response = await axios.get("https://holisticart.panchami6.repl.co/products");
+      const response = await axios.get(api);
       setLoader(false);
       setShowProducts(response.data.products);
     })();
   }, [showProducts===[]]);
+
+  const addtoCart = async (item) => {
+    try {
+        await axios.post(cartApi, { _id:item._id});      
+        setItemsInCart((items) => [...items, item]);
+    } catch (error) {
+        console.error(error);
+    }
+ }
+
+ const addToWishlist = async (item) => {
+   try{
+    await axios.post(wishlistApi, { _id:item._id});
+    setItemsInWishList((items) => [...items, item])
+   } catch(error){
+    console.error(error);
+   }
+ }
+
+ const removeFromWishlist = async (item) => {
+  try{
+   await axios.delete(`${wishlistApi}/${item._id}`);
+   setItemsInWishList((prev) =>
+  prev.filter((items) => items._id !== item._id)) 
+  } catch(error){
+   console.error(error);
+  }
+}
+
 
   const [
     { showInventoryAll, showFastDeliveryOnly, sortBy },
@@ -169,7 +203,6 @@ export function ProductListing() {
               height="auto"
               alt={item.productName}
             />
-            {console.log(typeof item.image)}
             <h3> {item.name} </h3>
             <div>Rs. {item.price}</div>
             {item.inStock && <div> In Stock </div>}
@@ -181,15 +214,19 @@ export function ProductListing() {
               <div> 3 days minimum </div>
             )}
             
-            <button className="product-btn"
+            <button className = {item.inStock? "btn-primary" : "btn-disabled"}
             disabled={!item.inStock}
-              onClick={() => {
-                checkItemInCart(itemsInCart, item._id) ?
+              onClick={() => 
+             
+              {
+                if(!checkItemInCart(itemsInCart, item._id)) addtoCart(item)
                   
-                  <Link to="/Products">Products</Link>
+                //   <Link to="/Products">Products</Link>
                   
-                :setItemsInCart((items) => [...items, item]);
-              }}
+                // :  
+                // setItemsInCart((items) => [...items, item]);
+              }
+              }
             >
               {checkItemInCart(itemsInCart, item._id) ? "Item In cart" : "Add to cart"}
             </button>
@@ -197,12 +234,16 @@ export function ProductListing() {
             {/* <button className="wishlist-btn"
               
             > */}
-              <i onClick={() =>{
-                checkItemInWishlist(itemsInWishList, item._id) ? setItemsInWishList((prev) =>
-                  prev.filter((items) => items._id !== item._id)
-                ) :
-                setItemsInWishList((items) => [...items, item])}} className={checkItemInWishlist(itemsInWishList, item._id) ? "fas fa-heart wishlist-btn" : "far fa-heart wishlist-btn"}></i>
-            {/* </button> */}
+              <i onClick={() =>
+              { checkItemInWishlist(itemsInWishList, item._id) ? removeFromWishlist(item)
+              // setItemsInWishList((prev) =>
+              //     prev.filter((items) => items._id !== item._id)
+              //   ) 
+                :
+                addToWishlist(item) } }
+                // setItemsInWishList((items) => [...items, item])}} 
+
+                className={checkItemInWishlist(itemsInWishList, item._id) ? "fas fa-heart wishlist-btn" : "far fa-heart wishlist-btn"}></i>
           </div>
         ))}
       </div>
