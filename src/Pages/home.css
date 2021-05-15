@@ -29,7 +29,7 @@
 .btn-primary{
     background-color: #AF0F0F;
     color: #f0d8d8;
-    padding: 4px 10px;
+    padding: 4px 8px;
     margin-top: 1rem;
     border: 1px solid #AF0F0F;
     border-radius: 10px;
@@ -47,3 +47,4 @@
     border: 1px solid rgb(175, 172, 172);
     border-radius: 10px;
 }
+

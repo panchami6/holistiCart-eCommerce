@@ -32,7 +32,7 @@ export function ProductListing() {
       setLoader(false);
       setShowProducts(response.data.products);
     })();
-  }, [showProducts===[]]);
+  }, []);
 
   const addtoCart = async (item) => {
     try {

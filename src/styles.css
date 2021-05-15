@@ -24,7 +24,7 @@
 .fa-search{
   position: absolute;
   left: 480px;
-  top: 94px;
+  top: 85px;
   color: rgb(124, 122, 122);
 }
 
@@ -161,5 +161,7 @@
 .move-to-cart{
   padding: 1rem;
 }
+
+
 
 
