@@ -13,9 +13,7 @@ ReactDOM.render(
     <AuthProvider>
       <CartProvider>
         <WishListProvider>
-        
             <App />
-         
         </WishListProvider>
       </CartProvider>
       </AuthProvider>

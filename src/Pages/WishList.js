@@ -27,7 +27,6 @@ export function Wishlist() {
         await axios.post(cartApi, { _id:item._id});      
         {
           setItemsInCart((items) => [...items, item]);
-          // setItemsInWishList((prev) => prev.filter((items) => items._id !== item._id));
         }
     } catch (error) {
         console.error(error);
@@ -75,12 +74,6 @@ export function Wishlist() {
               onClick={() =>{
                 if(!checkItemInCart(itemsInCart, item._id)) moveToCart(item)
               } 
-              // {
-              //   setItemsInCart((items) => [...items, item]);
-              //   setItemsInWishList((prev) =>
-              //     prev.filter((items) => items._id !== item._id)
-              //   );
-              // }
               }
             >
               {checkItemInCart(itemsInCart, item._id) ? "Item In cart" : "Move to Cart"}
@@ -89,9 +82,6 @@ export function Wishlist() {
             <div className="cart-remove">
             <button className = "btn-wishlist-move-remove"
               onClick={() => removeFromWishlist(item)
-                // setItemsInWishList((prev) =>
-                //   prev.filter((items) => items._id !== item._id)
-                // )
               }
             >
               Remove

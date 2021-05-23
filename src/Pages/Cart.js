@@ -9,10 +9,8 @@ const getAmount = (acc, items) => {
 
 export function Cart() {
   const { itemsInCart, setItemsInCart } = useCart();
-  // const [showCart, setShowCart] = useState([]);
 
   const cartApi = "https://holisticart.panchami6.repl.co/cart";
-  // const wishlistApi = "https://holisticart.panchami6.repl.co/wishlist";
 
   useEffect(() => {
     (async function () {
@@ -89,15 +87,6 @@ const decreaseQty = async (item) => {
             <div class="cart-quantity">
             <button class="cart-quantiy-btn"
               onClick={() => increaseQty(item)
-              // {
-              //   setItemsInCart((prev) =>
-              //     prev.map((items) =>
-              //       items._id === item._id
-              //         ? { ...items, quantity: items.quantity + 1 }
-              //         : items
-              //     )
-              //   );
-              // }
               }
             >
               +
@@ -106,15 +95,6 @@ const decreaseQty = async (item) => {
             <button class="cart-quantiy-btn"
               disabled={item.quantity < 2}
               onClick={() => decreaseQty(item)
-              // {
-              //   setItemsInCart((prev) =>
-              //     prev.map((items) =>
-              //       items._id === item._id
-              //         ? { ...items, quantity: items.quantity - 1 }
-              //         : items
-              //     )
-              //   );
-              // }
               }
             >
               -
@@ -123,13 +103,6 @@ const decreaseQty = async (item) => {
             <div className="cart-remove">
             <button class="cart-btn-remove"
               onClick={() => deleteCartItem(item)
-              // {
-              //   // <snackbar />
-                
-              //   setItemsInCart((prev) =>
-              //     prev.filter((items) => items._id !== item._id)
-              //   )
-              // }
               }
             >
               Remove

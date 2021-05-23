@@ -2,38 +2,6 @@ import React, {useState} from 'react';
 import {useAuth} from "../Context/auth-context";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import "./login.css";
-import get from "lodash/get";
-
-// export function Login() {
-//     const { isUserLogin, loginUserWithCredentials } = useAuth();
-//     const { state } = useLocation();
-//     const navigate = useNavigate();
-//     return (
-//         <div className="loginMainDiv"> 
-//             <div className="loginBox">
-//                 <h1>Login</h1>   
-//                 <form method="" action="">
-//                     <div className="loginForm">
-//                         <input placeholder="username" type="username"/>
-//                         {/* <label>Username</label> */}
-//                     </div>
-//                     <div className="loginForm">
-//                         <input placeholder="password"  type="Password" />
-//                         {/* <label>Password</label> */}
-//                     </div>
-//                     <input type="submit" value="login" />
-//                 </form>
-//             </div>
-
-//         {/* <button onClick={() => setLogin(login => !login)}> {login ? "I am logged In" : "I am logged out"}</button> */}
-//         </div>
-//     )
-// }
-
-
-// import React from "react";
-// import { useAuth } from "../AuthProvider";
-// import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const { isUserLogin, loginUserWithCredentials } = useAuth();

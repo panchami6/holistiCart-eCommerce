@@ -220,29 +220,15 @@ export function ProductListing() {
              
               {
                 if(!checkItemInCart(itemsInCart, item._id)) addtoCart(item)
-                  
-                //   <Link to="/Products">Products</Link>
-                  
-                // :  
-                // setItemsInCart((items) => [...items, item]);
               }
               }
             >
               {checkItemInCart(itemsInCart, item._id) ? "Item In cart" : "Add to cart"}
             </button>
-            
-            {/* <button className="wishlist-btn"
-              
-            > */}
               <i onClick={() =>
               { checkItemInWishlist(itemsInWishList, item._id) ? removeFromWishlist(item)
-              // setItemsInWishList((prev) =>
-              //     prev.filter((items) => items._id !== item._id)
-              //   ) 
                 :
                 addToWishlist(item) } }
-                // setItemsInWishList((items) => [...items, item])}} 
-
                 className={checkItemInWishlist(itemsInWishList, item._id) ? "fas fa-heart wishlist-btn" : "far fa-heart wishlist-btn"}></i>
           </div>
         ))}
