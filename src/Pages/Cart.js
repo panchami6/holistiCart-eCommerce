@@ -8,22 +8,22 @@ const getAmount = (acc, items) => {
 };
 
 export function Cart() {
-  const { itemsInCart, setItemsInCart } = useCart();
-
+  const { cartState, cartDispatch } = useCart();
+  const { cart } = cartState;
   const cartApi = "https://holisticart.panchami6.repl.co/cart";
 
   useEffect(() => {
     (async function () {
       const response = await axios.get(cartApi);
-      setItemsInCart(response.data.cart);
+      const cartData = response.data.cart;
+      cartDispatch({type:"CART_DATA", payload: cartData});
     })();
   }, []);
 
   const deleteCartItem = async (item) => {
     try {
         await axios.delete(`${cartApi}/${item._id}`);
-        setItemsInCart((prev) =>
-          prev.filter((items) => items._id !== item._id))
+        cartDispatch({type:"DELETE_FROM_CART", payload: item._id});
     } catch (error) {
         console.log(error);
     }
@@ -32,9 +32,8 @@ export function Cart() {
 
 const increaseQty = async (item) => {
     try {
-        await axios.post(`${cartApi}/${item._id}`);
-        setItemsInCart((prev) => prev.map((items) => items._id === item._id? 
-        { ...items, quantity: items.quantity + 1 }: items));
+        await axios.post(`${cartApi}/${item._id}`, { quantity: item.quantity + 1 });
+        cartDispatch({type:"INCREASE_QUANTITY", payload:item._id})
     } catch (error) {
         console.log(error);
     }
@@ -42,9 +41,8 @@ const increaseQty = async (item) => {
 
 const decreaseQty = async (item) => {
     try {
-        await axios.post(`${cartApi}/${item._id}`);
-        setItemsInCart((prev) => prev.map((items) => items._id === item._id? 
-        { ...items, quantity: items.quantity - 1 }: items));
+        await axios.post(`${cartApi}/${item._id}`, { quantity: item.quantity - 1 });
+        cartDispatch({type:"DECREASE_QUANTITY", payload:item._id})
     } catch (error) {
         console.log(error);
     }
@@ -54,7 +52,7 @@ const decreaseQty = async (item) => {
     <div class="cart">
       <h2>Cart</h2> 
       
-      <h3> Total: {itemsInCart.reduce(getAmount, 0)}</h3>
+      <h3> Total: {cart.reduce(getAmount, 0)}</h3>
       <div
         style={{
           display: "flex",
@@ -63,7 +61,7 @@ const decreaseQty = async (item) => {
         }}
       >
       {
-        itemsInCart.map((item) => 
+        cart.map((item) => 
         (
         
          <div class="products-cart"

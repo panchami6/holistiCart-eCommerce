@@ -3,7 +3,6 @@ import "../styles.css";
 import "./home.css";
 import { useCart } from "../Context/cart-context";
 import { useWishlist } from "../Context/wishlist-context";
-import { Link } from 'react-router-dom';
 import axios from "axios";
 
 export const checkItemInCart = (cartItems, _id) => {
@@ -15,8 +14,10 @@ export const checkItemInWishlist = (wishlistItems, _id) => {
 };
 
 export function ProductListing() {
-  const { itemsInCart, setItemsInCart } = useCart();
-  const { itemsInWishList, setItemsInWishList } = useWishlist();
+  const { cartState, cartDispatch } = useCart();
+  const {cart} = cartState;
+  const { wishlistState, wishlistDispatch } = useWishlist();
+  const { wishlist } = wishlistState;
   const [search, setSearch] = useState("");
   const [showProducts, setShowProducts] = useState([]);
   const [loader, setLoader] = useState(false);
@@ -36,8 +37,8 @@ export function ProductListing() {
 
   const addtoCart = async (item) => {
     try {
-        await axios.post(cartApi, { _id:item._id});      
-        setItemsInCart((items) => [...items, item]);
+        await axios.post(cartApi, { _id:item._id});     
+        cartDispatch({type:"ADD_TO_CART", payload:item._id})
     } catch (error) {
         console.error(error);
     }
@@ -46,7 +47,7 @@ export function ProductListing() {
  const addToWishlist = async (item) => {
    try{
     await axios.post(wishlistApi, { _id:item._id});
-    setItemsInWishList((items) => [...items, item])
+    wishlistDispatch({type:"ADD_TO_WISHLIST", payload:item._id})
    } catch(error){
     console.error(error);
    }
@@ -55,8 +56,7 @@ export function ProductListing() {
  const removeFromWishlist = async (item) => {
   try{
    await axios.delete(`${wishlistApi}/${item._id}`);
-   setItemsInWishList((prev) =>
-  prev.filter((items) => items._id !== item._id)) 
+  wishlistDispatch({type:"REMOVE_FROM_WISHLIST", payload:item._id})
   } catch(error){
    console.error(error);
   }
@@ -216,20 +216,19 @@ export function ProductListing() {
             
             <button className = {item.inStock? "btn-primary" : "btn-disabled"}
             disabled={!item.inStock}
-              onClick={() => 
-             
+              onClick = {() =>
               {
-                if(!checkItemInCart(itemsInCart, item._id)) addtoCart(item)
+                if(!checkItemInCart(cart, item._id)) addtoCart(item)
               }
               }
             >
-              {checkItemInCart(itemsInCart, item._id) ? "Item In cart" : "Add to cart"}
+              {checkItemInCart(cart, item._id) ? "Item In cart" : "Add to cart"}
             </button>
               <i onClick={() =>
-              { checkItemInWishlist(itemsInWishList, item._id) ? removeFromWishlist(item)
+              { checkItemInWishlist(wishlist, item._id) ? removeFromWishlist(item)
                 :
                 addToWishlist(item) } }
-                className={checkItemInWishlist(itemsInWishList, item._id) ? "fas fa-heart wishlist-btn" : "far fa-heart wishlist-btn"}></i>
+                className={checkItemInWishlist(wishlist, item._id) ? "fas fa-heart wishlist-btn" : "far fa-heart wishlist-btn"}></i>
           </div>
         ))}
       </div>
