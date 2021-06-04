@@ -10,14 +10,14 @@ const rootElement = document.getElementById("root");
 ReactDOM.render(
   <StrictMode>
     <Router>
-    <AuthProvider>
-      <CartProvider>
-        <WishlistProvider>
+      <AuthProvider>
+        <CartProvider>
+          <WishlistProvider>
             <App />
-        </WishlistProvider>
-      </CartProvider>
+          </WishlistProvider>
+        </CartProvider>
       </AuthProvider>
-      </Router>
+    </Router>
   </StrictMode>,
   rootElement
 );

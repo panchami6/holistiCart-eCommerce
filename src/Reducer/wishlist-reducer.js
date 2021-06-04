@@ -1,3 +1,5 @@
+import { useWishlist } from "../Context/wishlist-context";
+
 export function wishlistReducer(wishlistState, action ){
       
     switch (action.type) {
@@ -6,12 +8,11 @@ export function wishlistReducer(wishlistState, action ){
                     ...wishlistState, 
                     wishlist: action.payload 
                 };
-
-        case "MOVE_TO_CART":
-                return {
-                    ...wishlistState, 
-                    wishlist: [...wishlistState.wishlist, action.payload]
-                };
+        case "ADD_TO_WISHLIST":
+            return{
+                ...wishlistState,
+                wishlist: [...wishlistState.wishlist, action.payload]
+            }
         
         case "REMOVE_FROM_WISHLIST":
             return {

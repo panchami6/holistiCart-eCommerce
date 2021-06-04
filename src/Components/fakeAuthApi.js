@@ -1,4 +1,3 @@
-// Database
 import get from "lodash/get";
 
 const Users = [

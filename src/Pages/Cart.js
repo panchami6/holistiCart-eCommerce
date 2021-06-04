@@ -1,6 +1,6 @@
 import { useCart } from "../Context/cart-context";
 import "../styles.css";
-import {useState, useEffect} from "react"
+import {useEffect} from "react"
 import axios from "axios";
 
 const getAmount = (acc, items) => {
@@ -11,14 +11,6 @@ export function Cart() {
   const { cartState, cartDispatch } = useCart();
   const { cart } = cartState;
   const cartApi = "https://holisticart.panchami6.repl.co/cart";
-
-  useEffect(() => {
-    (async function () {
-      const response = await axios.get(cartApi);
-      const cartData = response.data.cart;
-      cartDispatch({type:"CART_DATA", payload: cartData});
-    })();
-  }, []);
 
   const deleteCartItem = async (item) => {
     try {

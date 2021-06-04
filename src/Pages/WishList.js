@@ -16,19 +16,11 @@ export function Wishlist() {
   const cartApi = "https://holisticart.panchami6.repl.co/cart";
   const wishlistApi = "https://holisticart.panchami6.repl.co/wishlist";
 
-  useEffect(() => {
-    (async function () {
-      const response = await axios.get(wishlistApi);
-      const wishlistData = response.data.wishlist;
-      wishlistDispatch({type: "WISHLIST_DATA", payload:wishlistData})
-    })();
-  }, []);
-
   const moveToCart = async (item) => {
     try {
         removeFromWishlist(item)
         await axios.post(cartApi, { _id:item._id});   
-        wishlistDispatch({type:"MOVE_TO_CART", payload:item._id});
+        wishlistDispatch({type:"ADD_TO_CART", payload:item._id});
         wishlistDispatch({type:"REMOVE_FROM_WISHLIST", payload:item._id});
     } catch (error) {
         console.error(error);
