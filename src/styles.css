@@ -24,14 +24,14 @@
 .fa-search{
   position: absolute;
   left: 480px;
-  top: 94px;
+  top: 93px;
   color: rgb(124, 122, 122);
 }
 
 .products{
   position: relative;
   text-align: center;
-  border: 1px solid black;
+  border: 1px solid rgb(124, 122, 122);;
   border-radius: 0 0 0.5rem 0.5rem;
   margin: 1rem;
   max-width: 250px;
@@ -69,8 +69,9 @@
 
 .products-cart{
   display: flex;
-  border: 1px solid black;
+  border: 1px solid rgb(124, 122, 122);
   border-radius: 0 0 0.5rem 0.5rem;
+  /* background-color: rgb(124, 122, 122) ; */
   width: 800px;
   height: 252px;
   margin: 1rem;
@@ -97,8 +98,10 @@
 
 .cart-quantiy-btn{
   display: inline;
-  width: 20px;
-  
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  font-size: 18px;
 }
 
 .cart-quantity{
@@ -112,9 +115,12 @@
 }
 
 .cart-btn-remove{
-  padding: 0.3rem 0.2rem; 
-  text-align: center;
-  border-radius: 0.3rem;
+  color: black;
+  background-color: rgb(163, 159, 159) ;
+  padding: 8px 10px;
+  border: 1px solid #f0d8d8;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 .cart{
@@ -138,5 +144,24 @@
   position: absolute;
   right: 1rem;
 }
+
+.wishlist-buttons{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.btn-wishlist-move-remove{
+  padding: 4px 10px;
+  margin-top: 1rem;
+  border: 1px solid rgb(175, 172, 172);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.move-to-cart{
+  padding: 1rem;
+}
+
+
 
 

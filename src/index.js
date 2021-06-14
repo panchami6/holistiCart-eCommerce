@@ -1,19 +1,22 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import { CartProvider } from "./cart-context";
-import { WishListProvider } from "./wishlist-context";
+import { CartProvider } from "./Context/cart-context";
+import { WishlistProvider } from "./Context/wishlist-context";
+import { AuthProvider }  from "./Context/auth-context";
 import { BrowserRouter as Router } from "react-router-dom";
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
   <StrictMode>
     <Router>
-      <CartProvider>
-        <WishListProvider>
+      <AuthProvider>
+        <CartProvider>
+          <WishlistProvider>
             <App />
-        </WishListProvider>
-      </CartProvider>
+          </WishlistProvider>
+        </CartProvider>
+      </AuthProvider>
     </Router>
   </StrictMode>,
   rootElement

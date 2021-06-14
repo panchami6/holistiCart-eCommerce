@@ -13,6 +13,8 @@
     color: rgb(245, 241, 241);
     text-decoration: none;
     padding: 0rem 0.5rem;
+    border: none;
+    background-color: black;
   }
   
   .nav-Header{
@@ -20,7 +22,7 @@
     padding: 0;
   }
 
-.cart-wishlist-quantity{
+  .cart-wishlist-quantity{
     position: absolute;
     right: 0;
     bottom: 8px;
@@ -40,5 +42,7 @@
     color: red;
     cursor: pointer;
   }
-
   
+  .fa-sign-out-alt{
+    font-size: 23px;
+  }
