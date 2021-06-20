@@ -22,13 +22,13 @@ export function cartReducer(cartState, action ){
         case "INCREASE_QUANTITY":
             return {
                 ...cartState, 
-                cart: cartState.cart.map(item => item._id === action.payload ? {...item, quantity: item.quantity + 1} : item)
+                cart: cartState.cart.map(item => item._id === action.payload.productId ? {...item, quantity: item.quantity + 1} : item)
             };
             
         case "DECREASE_QUANTITY": 
             return {
                 ...cartState, 
-                cart: cartState.cart.map(item => item._id === action.payload ? {...item, quantity: item.quantity - 1} : item)
+                cart: cartState.cart.map(item => item._id === action.payload.productId ? {...item, quantity: item.quantity - 1} : item)
             };
 
         default:

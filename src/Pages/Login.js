@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useAuth} from "../Context/auth-context";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate, Link } from "react-router-dom";
 import "./login.css";
 
 export default function Login() {
@@ -15,20 +15,15 @@ export default function Login() {
         <h1>Login</h1>   
             <form method="" action="">
                 <div className="loginForm">
-                    <input onChange={(e) => setUsername(e.target.value)} placeholder="username" type="username"/>
+                    <input onChange={(e) => setUsername(e.target.value)} autoComplete="off" placeholder="username" type="username"/>
                 </div>
                 <div className="loginForm">
-                    <input onChange={(e) => setPassword(e.target.value)} placeholder="password"  type="Password" />
+                    <input onChange={(e) => setPassword(e.target.value)} autoComplete="off" placeholder="password"  type="Password" />
                 </div>
-                <button className = "btn-login" onClick={loginHandler}>Login</button>
+                <button type = "button" className = "btn-login" onClick={loginHandler}>Login</button>
             </form>
-    </div>
-
-    <div className = "credentials">
-      Credentials:
-      <div><strong>Username:</strong> panchami</div>
-      <div><strong>Password:</strong> panchami123</div>
-    </div>
+            <div style = {{color:"white", paddingTop:"1rem"}}>Not a user? <Link to ="/signup">Sign up</Link></div>
+      </div>
     </>
   );
 

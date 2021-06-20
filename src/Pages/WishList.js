@@ -3,6 +3,7 @@ import { useCart } from "../Context/cart-context";
 import { useWishlist } from "../Context/wishlist-context";
 import axios from "axios";
 import {checkItemInCart} from "./Products";
+import { useAuth } from "../Context/auth-context";
 import "../styles.css";
 import "./home.css";
 
@@ -12,16 +13,30 @@ export function Wishlist() {
   const {cart} = cartState;
   const { wishlistState, wishlistDispatch} = useWishlist();
   const { wishlist } = wishlistState;
+  const {userId} = useAuth();
 
-  const cartApi = "https://holisticart.panchami6.repl.co/cart";
-  const wishlistApi = "https://holisticart.panchami6.repl.co/wishlist";
+  const cartApi = `https://holisticart.panchami6.repl.co/cart/${userId}`;
+  const wishlistApi = `https://holisticart.panchami6.repl.co/wishlist/${userId}`;
+
+  useEffect(() => {
+    (async function () {
+      try{
+      const response = await axios.get(wishlistApi);
+      const wishlistData = response.data.wishlist.products;
+      wishlistDispatch({type: "WISHLIST_DATA", payload:wishlistData})
+    }catch(error){
+      console.log(error)
+    }
+    })();
+  }, []);
 
   const moveToCart = async (item) => {
     try {
+        console.log(item.quantity)
         removeFromWishlist(item)
-        await axios.post(cartApi, { _id:item._id});   
-        wishlistDispatch({type:"ADD_TO_CART", payload:item._id});
-        wishlistDispatch({type:"REMOVE_FROM_WISHLIST", payload:item._id});
+        await axios.post(cartApi, { productId:item.productId, quantity:item.quantity, name:item.name, price:item.price, image:item.image, inStock: item.inStock, fastDelivery: item.fastDelivery });   
+        wishlistDispatch({type:"ADD_TO_CART", payload:item.productId});
+        // wishlistDispatch({type:"REMOVE_FROM_WISHLIST", payload:item.productId});
     } catch (error) {
         console.error(error);
     }
@@ -29,29 +44,27 @@ export function Wishlist() {
 
   const removeFromWishlist = async (item) => {
   try{
-   await axios.delete(`${wishlistApi}/${item._id}`);
-   wishlistDispatch({type:"REMOVE_FROM_WISHLIST", payload:item._id})
+   await axios.delete(`${wishlistApi}/${item.productId}`);
+   wishlistDispatch({type:"REMOVE_FROM_WISHLIST", payload:item.productId})
   } catch(error){
    console.error(error);
   }
 }
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h2 style={{marginTop: "1rem"}}>Wishlist</h2>
-      <div
-        style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
-      >
+    <div className ="cart">
+      <h2>Wishlist</h2>
+      <div>
         {wishlist.map((item) => (
-          <div class="products-cart"
+          <div className="products-cart"
             key={item._id}
           >
-            <div class="cart-image">
-            <img class="img-cart" src={item.image} width="100%" height="auto" alt={item.name} />
+            <div className="cart-image">
+            <img className="img-cart" src={item.image} width="100%" height="auto" alt={item.name} />
             </div>
-            <div class="cart-product-details">
+            <div className="cart-product-details">
             <h3> {item.name} </h3>
-            <div>Rs. {item.price}</div>
+            <strong>Rs. {item.price}</strong>
             {item.inStock && <div> In Stock </div>}
             {!item.inStock && <div> Out of Stock </div>}
             <div>{item.level}</div>
@@ -60,16 +73,16 @@ export function Wishlist() {
             ) : (
               <div> 3 days minimum </div>
             )}
-            <div class="wishlist-buttons">
-            <div class="move-to-cart">
+            <div className="wishlist-buttons">
+            <div className="move-to-cart">
             <button className = {item.inStock? "btn-wishlist-move-remove": "btn-disabled"}
               disabled={!item.inStock}
               onClick={() =>{
-                 if(!checkItemInCart(cart, item._id)) moveToCart(item)
+                 if(!checkItemInCart(cart, item.productId)) moveToCart(item)
                } 
                }
             >
-              {checkItemInCart(cart, item._id) ? "Item In cart" : "Move to Cart"} 
+              {checkItemInCart(cart, item.productId) ? "Item In cart" : "Move to Cart"} 
             </button>
             </div>
             <div className="cart-remove">
