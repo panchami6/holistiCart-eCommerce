@@ -7,7 +7,6 @@ import { useAuth } from "../Context/auth-context";
 import "../styles.css";
 import "./home.css";
 
-
 export function Wishlist() {
   const { cartState } = useCart();
   const {cart} = cartState;
@@ -36,7 +35,6 @@ export function Wishlist() {
         removeFromWishlist(item)
         await axios.post(cartApi, { productId:item.productId, quantity:item.quantity, name:item.name, price:item.price, image:item.image, inStock: item.inStock, fastDelivery: item.fastDelivery });   
         wishlistDispatch({type:"ADD_TO_CART", payload:item.productId});
-        // wishlistDispatch({type:"REMOVE_FROM_WISHLIST", payload:item.productId});
     } catch (error) {
         console.error(error);
     }

@@ -10,12 +10,8 @@ import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
 import {PrivateRoute} from "./Components/PrivateRoute";
 import { NavigationBar } from "./Components/Navigation/navigationBar";
-import { useCart } from "./Context/cart-context";
-import { useWishlist } from "./Context/wishlist-context";
  
 export default function App() {
-  const {cartDispatch} = useCart();
-  const {wishlistDispatch} = useWishlist();
 
   return (
     <div className="App">

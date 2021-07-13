@@ -230,7 +230,6 @@ export function ProductListing() {
         </div>
       </div>
       <div className = "product-cards"
-        //  style={{ display: "flex", flexWrap: "wrap", justifyContent: "center"}}
       >
         {filteredData.map((item) => (
           <div className="products"

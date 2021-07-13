@@ -5,7 +5,6 @@ import { useState } from "react";
 export const AuthContext = createContext();
 
 function loginService(username, password) {
-  console.log("calling login api")
   return axios.post("https://holistiCart.panchami6.repl.co/user/login", { email: username, password: password }
   );
 }
@@ -42,18 +41,15 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await loginService(username, password);
       if (response.status === 200) {
-        console.log({response})
         loginUser(response.data);
-        // setUserId(response.data._id);
       }
     } catch (error) {
-      console.log("Sahi username password nahi pata kya?", error);
+      console.log("Username or password is wrong", error);
     }
 
     function loginUser({ token, user }) {
       setToken(token);
       setLogin(true);
-      console.log("userId: ",user._id)
       setUserId(user._id)
       localStorage?.setItem(
         "login",
@@ -63,7 +59,6 @@ export const AuthProvider = ({ children }) => {
   }
 
   function logoutUser() {
-    console.log("logout")
     localStorage?.removeItem("login");
     setLogin(false);
     setToken(null);

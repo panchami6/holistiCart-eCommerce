@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {useAuth} from "../Context/auth-context";
 import { Navigate, useNavigate, Link } from "react-router-dom";
 import "./login.css";
-// import {signUpService} from "../Context/auth-context"
 
 export default function SignUp() {
   const [newName, setName] = useState("");
@@ -38,5 +37,4 @@ export default function SignUp() {
 }
 
 
-// signUpUserWithCredentials(newName, email, password);
 
