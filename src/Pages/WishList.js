@@ -73,7 +73,7 @@ export function Wishlist() {
             )}
             <div className="wishlist-buttons">
             <div className="move-to-cart">
-            <button className = {item.inStock? "btn-wishlist-move-remove": "btn-disabled"}
+            <button className = {item.inStock? "btn-wishlist-move-remove": "btn-disabled-wishlist"}
               disabled={!item.inStock}
               onClick={() =>{
                  if(!checkItemInCart(cart, item.productId)) moveToCart(item)

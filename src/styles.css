@@ -187,10 +187,18 @@
   border: 1px solid rgb(175, 172, 172);
   border-radius: 10px;
   cursor: pointer;
+  background-color: rgb(163, 159, 159);
 }
 
 .move-to-cart{
   padding: 1rem;
+}
+
+.btn-disabled-wishlist{
+  padding: 4px 10px;
+  margin-top: 1rem;
+  border: 1px solid rgb(175, 172, 172);
+  border-radius: 10px;
 }
 
 
