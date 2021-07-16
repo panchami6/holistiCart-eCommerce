@@ -22,7 +22,7 @@ export default function Login() {
                 </div>
                 <button type = "button" className = "btn-login" onClick={loginHandler}>Login</button>
             </form>
-            <div style = {{color:"white", paddingTop:"1rem"}}>Not a user? <Link to ="/signup">Sign up</Link></div>
+            <div className = "not-a-user">Not a user? <Link className = "signup-link" to ="/signup">Sign up</Link></div>
       </div>
     </>
   );

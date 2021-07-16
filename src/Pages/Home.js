@@ -11,7 +11,7 @@ export default function Home() {
                     </div>
                     <div className = "landing-page-intro">
                         <h1>One stop destination to start your fitness journey</h1>
-                        <Link className="btn-primary" to="/Products"><button className="btn-primary">Shop Now</button></Link>
+                        <Link className = "btn-link" to="/Products"><button className="btn-primary">Shop Now</button></Link>
                     </div>
                     <div>
                         <img className = "landing-page-photo" src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8Z3ltfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="fit man"/>
@@ -31,7 +31,7 @@ export default function Home() {
                         <Link className = "categories" to="/Products"><button>Shop Now ➜  </button></Link>
                     </div>
                 </div>
-                <div className = "recommendations">
+                {/* <div className = "recommendations">
                     <h3>Recommended For You</h3>
                     <div className = "recommendation-cards">
                         <div className = "category-women">
@@ -51,7 +51,7 @@ export default function Home() {
                             <Link className = "categories" to="/Products"><button>Shop Now ➜  </button></Link>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     )

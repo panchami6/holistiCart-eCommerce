@@ -50,8 +50,10 @@ export function Wishlist() {
 }
 
   return (
+    <div className = "cart-main">
+    <h2>Wishlist</h2>
     <div className ="cart">
-      <h2>Wishlist</h2>
+     
       <div>
         {wishlist.map((item) => (
           <div className="products-cart"
@@ -73,7 +75,7 @@ export function Wishlist() {
             )}
             <div className="wishlist-buttons">
             <div className="move-to-cart">
-            <button className = {item.inStock? "btn-wishlist-move-remove": "btn-disabled-wishlist"}
+            <button className = {item.inStock? "btn-wishlist-move": "btn-disabled-wishlist"}
               disabled={!item.inStock}
               onClick={() =>{
                  if(!checkItemInCart(cart, item.productId)) moveToCart(item)
@@ -84,7 +86,7 @@ export function Wishlist() {
             </button>
             </div>
             <div className="cart-remove">
-            <button className = "btn-wishlist-move-remove"
+            <button className = "btn-wishlist-remove"
               onClick={() => removeFromWishlist(item)
               }
             >
@@ -96,6 +98,7 @@ export function Wishlist() {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 }

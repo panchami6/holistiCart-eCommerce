@@ -168,7 +168,7 @@ export function ProductListing() {
           <i className="fas fa-search"></i> 
         </div>
      
-        <div
+        <div className = "filters-main"
         >
           <div>
           <fieldset className="filters">

@@ -4,19 +4,18 @@
     align-items: center;
     background-color: #AF0F0F;
     color: #f0d8d8;
-    height: 6vh;
-    border: 1px solid #AF0F0F;
-    border-radius: 5px;
-    font-size: 16px;
+    height: 5vh;
+    width: 110px;
+    margin-top: 1rem;
+    border: none;
+    border-radius: 0.2rem;
+    font-size: 14px;
     font-weight: bold;
-    padding: 0rem 1rem;
     cursor: pointer;
-    transition: font-size 0.1s ease-in-out;
-    text-decoration: none;
 }
 
-.btn-primary:hover{
-    font-size: 14px;
+.btn-link{
+    text-decoration: none;
 }
 
 .btn-disabled{
@@ -32,7 +31,7 @@
     background-color: rgb(231, 227, 227);
     border-top: 1px solid  rgb(231, 227, 227);
     border-bottom: 1px solid  rgb(231, 227, 227);
-    margin-top: 6rem;
+    margin-top: 2rem;
     display: flex;
 }
 
@@ -71,28 +70,52 @@
 }
 
 .category-women button{
-    background-color: black;
+    background-color: #AF0F0F;
+    border: none;
     color: white;
     width: 225px;
-    height: 7vh;
+    height: 6vh;
     
 }
 
-.recommendations{
-    margin-top: 1rem;
-    background-color: rgb(231, 227, 227);
-}
+@media only screen and (max-width : 400px){
+    .btn-primary{
+        height: 4vh;
+        font-size: 14px;
+        font-weight: bold;
+    }
 
-.recommendations h3{
-    padding: 1rem 3rem;
-    text-align: start;
-}
+    .landing-page-photo{
+        display: none;
+    }
 
-.recommendation-cards{
-    display: flex;
-    justify-content: space-around;
-}
+    .landing-page-intro{
+        width: 100%;
+        font-size: 12px;
+        height: 25vh;
+        margin-top: 1rem;
+    }
 
-.categories{
-    cursor: pointer;
+    .landing-page-categories{
+        display: flex;
+        flex-direction: column;
+        margin-top: 15rem;
+        align-items: center;
+        
+    }
+
+    .category-women img{
+        width: 200px;
+        height: 200px;
+    }
+
+    .category-women button{
+        background-color: #AF0F0F;
+        border: none;
+        color: white;
+        width: 200px;
+        height: 4vh;
+        margin-bottom: 1rem;
+    }
+    
 }

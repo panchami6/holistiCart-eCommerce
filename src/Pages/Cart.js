@@ -55,10 +55,10 @@ const decreaseQty = async (item) => {
 }
 
   return (
+    <div className = "cart-main">
+     <h2>My Cart</h2> 
     <div className="cart">
-      <h2>My Cart</h2> 
-      
-      <h3> Total: {cart.reduce(getAmount, 0)}</h3>
+      {/* <h2>My Cart</h2>  */}
       <div>
       {cart.map((item) => (
          <div className="products-cart"
@@ -70,14 +70,14 @@ const decreaseQty = async (item) => {
             <div className="cart-product-details">
             <h3> {item.name} </h3>
             <strong>Rs. {item.price}</strong>
-            {item.inStock && <p> In Stock </p>}
+            {/* {item.inStock && <p> In Stock </p>}
             {!item.inStock && <p> Out of Stock </p>}
             <p>{item.level}</p>
             {item.fastDelivery ? (
               <p> Fast Delivery </p>
             ) : (
               <p> 3 days minimum </p>
-            )}
+            )} */}
 
             <div className="cart-quantity">
             <button className="cart-quantiy-btn"
@@ -107,6 +107,21 @@ const decreaseQty = async (item) => {
         
           </div>
         ) )} 
+        </div>
+        <div className = "checkout">
+          <div className = "checkout-header">Price Details</div>
+          <div className = "checkout-price">
+          <p>Price <span>({cart.length} Items)</span></p>
+          <p>₹{cart.reduce(getAmount, 0)}</p>
+          </div>
+          <div className = "checkout-total">
+            <strong> Total Amount </strong>
+            <strong>₹{cart.reduce(getAmount, 0)}</strong>
+          </div>
+          
+            <div>{cart.length > 0 ? <button className = "checkout-btn">checkout</button> : <button className = "checkout-btn">Shop Now</button>}
+            </div>
+        </div>
         </div>
         </div>
   )}
