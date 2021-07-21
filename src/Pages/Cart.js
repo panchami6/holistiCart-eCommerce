@@ -8,6 +8,22 @@ const getAmount = (acc, items) => {
   return acc + parseInt(items.price,10) * parseInt(items.quantity,10);
 };
 
+const loadScript = (src) => {
+  return new Promise((resolve) => {
+    const script = document.createElement('script')
+  script.src = src
+  script.onload = () => {
+    resolve(true)
+  }
+  script.onerror = () => {
+    resolve(false)
+  }
+  document.body.appendChild(script)
+  })
+  
+  
+}
+
 export function Cart() {
   const { cartState, cartDispatch } = useCart();
   const { cart } = cartState;
@@ -24,7 +40,7 @@ export function Cart() {
       console.log(error)
     }
     })();
-  }, [])
+  }, [cart])
 
   const deleteCartItem = async (item) => {
     try {
@@ -54,11 +70,41 @@ const decreaseQty = async (item) => {
     }
 }
 
+const displayRazorpay = async () => {
+
+  const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js")
+
+  if(!res) {
+    alert('Razorpay SDK failed to load. Are you online?')
+    return
+  }
+
+  const response = await axios.post("https://holistiCart.panchami6.repl.co/razorpay", {amount: cart.reduce(getAmount, 0)})
+  const razorpayData = response.data
+  console.log(razorpayData)
+
+
+  const options = {
+    "key": "rzp_test_O0NRuVXCtyxURD", 
+    "amount": razorpayData.amount,
+    "currency": razorpayData.currency,
+    // "name": "Acme Corp",
+    // "description": "Test Transaction",
+    // "image": "https://example.com/your_logo",
+    "order_id": razorpayData.id,
+    // "handler": function (response){
+    //     alert(response.data.amount);
+    //     alert(response.data.id);
+    // }   
+};
+const paymentObject = new Razorpay(options);
+paymentObject.open()
+}
+
   return (
     <div className = "cart-main">
      <h2>My Cart</h2> 
     <div className="cart">
-      {/* <h2>My Cart</h2>  */}
       <div>
       {cart.map((item) => (
          <div className="products-cart"
@@ -119,7 +165,7 @@ const decreaseQty = async (item) => {
             <strong>₹{cart.reduce(getAmount, 0)}</strong>
           </div>
           
-            <div>{cart.length > 0 ? <button className = "checkout-btn">checkout</button> : <button className = "checkout-btn">Shop Now</button>}
+            <div>{cart.length > 0 ? <button className = "checkout-btn" onClick = {displayRazorpay}>checkout</button> : <button className = "checkout-btn">Shop Now</button>}
             </div>
         </div>
         </div>

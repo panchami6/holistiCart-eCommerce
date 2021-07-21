@@ -4,8 +4,9 @@
     align-items: center;
     background-color: #AF0F0F;
     color: #f0d8d8;
-    height: 5vh;
-    width: 110px;
+    height: 6vh;
+    width: 100%;
+    padding: 0rem 1rem;
     margin-top: 1rem;
     border: none;
     border-radius: 0.2rem;
@@ -75,7 +76,7 @@
     color: white;
     width: 225px;
     height: 6vh;
-    
+    cursor: pointer;
 }
 
 @media only screen and (max-width : 400px){
