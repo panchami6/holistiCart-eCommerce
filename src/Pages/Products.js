@@ -47,7 +47,7 @@ export function ProductListing() {
           console.log(error)
         }
       })();
-    },[])
+    },[loader])
 
   useEffect(() => {
     (async function () {
@@ -60,12 +60,14 @@ export function ProductListing() {
       }
       
     })();
-  }, []);
+  }, [loader]);
 
   const addtoCart = async (item) => {
     try {
-        await axios.post(cartApi, { productId:item._id, quantity:item.quantity, name:item.name, price:item.price, image:item.image, inStock: item.inStock, fastDelivery: item.fastDelivery });     
-        cartDispatch({type:"ADD_TO_CART", payload:{productId}})
+        setLoader(true);
+        await axios.post(cartApi, { productId:item._id, quantity:item.quantity, name:item.name, price:item.price, image:item.image, inStock: item.inStock, fastDelivery: item.fastDelivery });  
+        setLoader(false);   
+        cartDispatch({type:"ADD_TO_CART", payload:{productId: item._id}})
     } catch (error) {
         console.error(error);
     }
@@ -73,8 +75,10 @@ export function ProductListing() {
 
  const addToWishlist = async (item) => {
    try{
+    setLoader(true);
     await axios.post(wishlistApi, { productId:item._id, quantity:item.quantity, name:item.name, price:item.price, image:item.image, inStock:item.inStock, fastDelivery: item.fastDelivery});
-    wishlistDispatch({type:"ADD_TO_WISHLIST", payload:{productId}})
+    setLoader(false);
+    wishlistDispatch({type:"ADD_TO_WISHLIST", payload:{productId: item._id}})
    } catch(error){
     console.error(error);
    }
@@ -82,8 +86,11 @@ export function ProductListing() {
 
  const removeFromWishlist = async (item) => {
   try{
-   await axios.delete(`${wishlistApi}/${item.productId}`);
-  wishlistDispatch({type:"REMOVE_FROM_WISHLIST", payload:item.productId})
+    setLoader(true);
+   await axios.delete(`${wishlistApi}/${item._id}`);
+   setLoader(false);
+  wishlistDispatch({type:"REMOVE_FROM_WISHLIST", payload:item._id})
+  
   } catch(error){
    console.error(error);
   }
@@ -260,8 +267,7 @@ export function ProductListing() {
                 if(!checkItemInCart(cart, item._id)) addtoCart(item)
               }
               }
-            >
-              {checkItemInCart(cart, item._id) ? "Item In cart" : "Add to cart"}
+            >{checkItemInCart(cart, item._id) ? "Item In cart" : "Add to cart" }
             </button>
               <i onClick={() =>
               { checkItemInWishlist(wishlist, item._id) ? removeFromWishlist(item)

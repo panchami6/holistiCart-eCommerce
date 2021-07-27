@@ -263,6 +263,22 @@
   border-bottom: 1px solid rgb(216, 213, 213);
 }
 
+.empty-cart{
+  margin-top: 2rem;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 30px;
+}
+
+.empty-cart-btn{
+  background-color: #AF0F0F;
+  border: none;
+  width: 100px;
+  height: 5vh;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 500px){
   .products-page{
     display: block;

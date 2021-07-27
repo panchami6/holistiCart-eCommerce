@@ -2,7 +2,8 @@ import { useCart } from "../Context/cart-context";
 import "../styles.css";
 import { useAuth } from "../Context/auth-context";
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import {Link} from "react-router-dom";
 
 const getAmount = (acc, items) => {
   return acc + parseInt(items.price,10) * parseInt(items.quantity,10);
@@ -28,6 +29,7 @@ export function Cart() {
   const { cartState, cartDispatch } = useCart();
   const { cart } = cartState;
   const {userId} = useAuth();
+  const [loader, setLoader] = useState(false);
   const cartApi = `https://holisticart.panchami6.repl.co/cart/${userId}`;
 
   useEffect(() => {
@@ -40,12 +42,14 @@ export function Cart() {
       console.log(error)
     }
     })();
-  }, [cart])
+  }, [loader])
 
   const deleteCartItem = async (item) => {
     try {
+        setLoader(true)
         await axios.delete(`${cartApi}/${item.productId}`);
         cartDispatch({type:"DELETE_FROM_CART", payload: item.productId});
+        setLoader(false)
     } catch (error) {
         console.log(error);
     }
@@ -54,8 +58,11 @@ export function Cart() {
 
 const increaseQty = async (item) => {
     try {
+        setLoader(true)
         await axios.post(cartApi, { productId: item.productId, quantity: item.quantity + 1 });
-        cartDispatch({type:"INCREASE_QUANTITY", payload:{productId, quantity}})
+        setLoader(false)
+        cartDispatch({type:"INCREASE_QUANTITY", payload:{productId: item.productId, quantity: item.quantity}})
+       
     } catch (error) {
         console.log(error);
     }
@@ -63,8 +70,10 @@ const increaseQty = async (item) => {
 
 const decreaseQty = async (item) => {
     try {
+        setLoader(true)
         await axios.post(cartApi, { productId: item.productId, quantity: item.quantity - 1 });
-        cartDispatch({type:"DECREASE_QUANTITY", payload:{productId, quantity}})
+        setLoader(false)
+        cartDispatch({type:"DECREASE_QUANTITY", payload:{productId: item.productId, quantity: item.quantity}})
     } catch (error) {
         console.log(error);
     }
@@ -105,6 +114,7 @@ paymentObject.open()
     <div className = "cart-main">
      <h2>My Cart</h2> 
     <div className="cart">
+    {cart.length > 0 ? (
       <div>
       {cart.map((item) => (
          <div className="products-cart"
@@ -116,15 +126,6 @@ paymentObject.open()
             <div className="cart-product-details">
             <h3> {item.name} </h3>
             <strong>Rs. {item.price}</strong>
-            {/* {item.inStock && <p> In Stock </p>}
-            {!item.inStock && <p> Out of Stock </p>}
-            <p>{item.level}</p>
-            {item.fastDelivery ? (
-              <p> Fast Delivery </p>
-            ) : (
-              <p> 3 days minimum </p>
-            )} */}
-
             <div className="cart-quantity">
             <button className="cart-quantiy-btn"
               onClick={() => increaseQty(item)
@@ -138,7 +139,7 @@ paymentObject.open()
               onClick={() => decreaseQty(item)
               }
             >
-              -
+            -
             </button>
             </div>
             <div className="cart-remove">
@@ -154,7 +155,16 @@ paymentObject.open()
           </div>
         ) )} 
         </div>
-        <div className = "checkout">
+    ) : (
+      <div className = "empty-cart">
+        <div>No Products in Cart.</div>
+        <Link to ="/products">
+        <button className = "empty-cart-btn">Shop now</button></Link>
+      </div>
+    ) }
+    
+    {cart.length > 0 && (
+      <div className = "checkout">
           <div className = "checkout-header">Price Details</div>
           <div className = "checkout-price">
           <p>Price <span>({cart.length} Items)</span></p>
@@ -168,6 +178,8 @@ paymentObject.open()
             <div>{cart.length > 0 ? <button className = "checkout-btn" onClick = {displayRazorpay}>checkout</button> : <button className = "checkout-btn">Shop Now</button>}
             </div>
         </div>
+    )}
+        
         </div>
         </div>
   )}

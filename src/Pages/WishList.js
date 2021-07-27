@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import { useCart } from "../Context/cart-context";
 import { useWishlist } from "../Context/wishlist-context";
 import axios from "axios";
@@ -6,6 +6,7 @@ import {checkItemInCart} from "./Products";
 import { useAuth } from "../Context/auth-context";
 import "../styles.css";
 import "./home.css";
+import { Link } from "react-router-dom";
 
 export function Wishlist() {
   const { cartState } = useCart();
@@ -13,6 +14,7 @@ export function Wishlist() {
   const { wishlistState, wishlistDispatch} = useWishlist();
   const { wishlist } = wishlistState;
   const {userId} = useAuth();
+  const [loader, setLoader] = useState(false)
 
   const cartApi = `https://holisticart.panchami6.repl.co/cart/${userId}`;
   const wishlistApi = `https://holisticart.panchami6.repl.co/wishlist/${userId}`;
@@ -27,13 +29,14 @@ export function Wishlist() {
       console.log(error)
     }
     })();
-  }, []);
+  }, [loader]);
 
   const moveToCart = async (item) => {
     try {
-        console.log(item.quantity)
+        setLoader(true)
         removeFromWishlist(item)
-        await axios.post(cartApi, { productId:item.productId, quantity:item.quantity, name:item.name, price:item.price, image:item.image, inStock: item.inStock, fastDelivery: item.fastDelivery });   
+        await axios.post(cartApi, { productId:item.productId, quantity:item.quantity, name:item.name, price:item.price, image:item.image, inStock: item.inStock, fastDelivery: item.fastDelivery }); 
+        setLoader(false)  
         wishlistDispatch({type:"ADD_TO_CART", payload:item.productId});
     } catch (error) {
         console.error(error);
@@ -42,7 +45,9 @@ export function Wishlist() {
 
   const removeFromWishlist = async (item) => {
   try{
+    setLoader(true)
    await axios.delete(`${wishlistApi}/${item.productId}`);
+   setLoader(false)
    wishlistDispatch({type:"REMOVE_FROM_WISHLIST", payload:item.productId})
   } catch(error){
    console.error(error);
@@ -53,7 +58,7 @@ export function Wishlist() {
     <div className = "cart-main">
     <h2>Wishlist</h2>
     <div className ="cart">
-     
+     {wishlist.length > 0 ? (
       <div>
         {wishlist.map((item) => (
           <div className="products-cart"
@@ -98,6 +103,14 @@ export function Wishlist() {
           </div>
         ))}
       </div>
+     ) : (
+      <div className = "empty-cart">
+        <div>No Products in Wishlist.</div>
+        <Link to ="/products">
+        <button className = "empty-cart-btn">Shop now</button></Link>
+      </div>
+     )}
+      
     </div>
     </div>
   );
