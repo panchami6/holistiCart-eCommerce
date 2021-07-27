@@ -15,7 +15,7 @@ export default function Login() {
         <h1>Login</h1>   
             <form method="" action="">
                 <div className="loginForm">
-                    <input onChange={(e) => setUsername(e.target.value)} autoComplete="off" placeholder="username" type="username"/>
+                    <input onChange={(e) => setUsername(e.target.value)} autoComplete="off" placeholder="email" type="username"/>
                 </div>
                 <div className="loginForm">
                     <input onChange={(e) => setPassword(e.target.value)} autoComplete="off" placeholder="password"  type="Password" />
@@ -25,7 +25,7 @@ export default function Login() {
             <div className = "not-a-user">Not a user? <Link className = "signup-link" to ="/signup">Sign up</Link></div>
             <div className = "guest-login">
               <h4>Guest Login</h4>
-              <div>username: panchami@gmail.com</div>
+              <div>email: panchami@gmail.com</div>
               <div>password: panchami</div>
             </div>
       </div>
