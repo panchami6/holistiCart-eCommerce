@@ -245,7 +245,7 @@ export function ProductListing() {
             <img
               src={item.image}
               width="100%"
-              height="auto"
+              height="180px"
               alt={item.name}
             />
             <h3> {item.name} </h3>
