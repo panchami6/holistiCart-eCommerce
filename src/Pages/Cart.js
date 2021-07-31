@@ -30,6 +30,8 @@ export function Cart() {
   const { cart } = cartState;
   const {userId} = useAuth();
   const [loader, setLoader] = useState(false);
+  const [loaderId, setLoaderId] = useState("")
+  const [loaderIdQnt, setLoaderIdQnt] = useState("")
   const cartApi = `https://holisticart.panchami6.repl.co/cart/${userId}`;
 
   useEffect(() => {
@@ -50,6 +52,7 @@ export function Cart() {
         await axios.delete(`${cartApi}/${item.productId}`);
         cartDispatch({type:"DELETE_FROM_CART", payload: item.productId});
         setLoader(false)
+        setLoaderId("")
     } catch (error) {
         console.log(error);
     }
@@ -61,8 +64,8 @@ const increaseQty = async (item) => {
         setLoader(true)
         await axios.post(cartApi, { productId: item.productId, quantity: item.quantity + 1 });
         setLoader(false)
+        setLoaderIdQnt("")
         cartDispatch({type:"INCREASE_QUANTITY", payload:{productId: item.productId, quantity: item.quantity}})
-       
     } catch (error) {
         console.log(error);
     }
@@ -73,6 +76,7 @@ const decreaseQty = async (item) => {
         setLoader(true)
         await axios.post(cartApi, { productId: item.productId, quantity: item.quantity - 1 });
         setLoader(false)
+        setLoaderIdQnt("")
         cartDispatch({type:"DECREASE_QUANTITY", payload:{productId: item.productId, quantity: item.quantity}})
     } catch (error) {
         console.log(error);
@@ -97,14 +101,7 @@ const displayRazorpay = async () => {
     "key": "rzp_test_O0NRuVXCtyxURD", 
     "amount": razorpayData.amount,
     "currency": razorpayData.currency,
-    // "name": "Acme Corp",
-    // "description": "Test Transaction",
-    // "image": "https://example.com/your_logo",
-    "order_id": razorpayData.id,
-    // "handler": function (response){
-    //     alert(response.data.amount);
-    //     alert(response.data.id);
-    // }   
+    "order_id": razorpayData.id, 
 };
 const paymentObject = new Razorpay(options);
 paymentObject.open()
@@ -128,15 +125,19 @@ paymentObject.open()
             <strong>Rs. {item.price}</strong>
             <div className="cart-quantity">
             <button className="cart-quantiy-btn"
-              onClick={() => increaseQty(item)
+              onClick={() => {
+                setLoaderIdQnt(item._id)
+                increaseQty(item)}
               }
             >
               +
             </button>
-            {item.quantity}
+            {(loader && loaderIdQnt === item._id) ? <i className="fa fa-spinner fa-spin"></i> : item.quantity}
             <button className="cart-quantiy-btn"
               disabled={item.quantity < 2}
-              onClick={() => decreaseQty(item)
+              onClick={() => {
+                setLoaderIdQnt(item._id)
+                decreaseQty(item)}
               }
             >
             -
@@ -144,10 +145,12 @@ paymentObject.open()
             </div>
             <div className="cart-remove">
             <button className="cart-btn-remove"
-              onClick={() => deleteCartItem(item)
+              onClick={() => {
+                setLoaderId(item._id)
+                deleteCartItem(item)}
               }
             >
-              Remove
+              {(loader && loaderId === item._id) ? "Removing" : "Remove"}
             </button>
             </div>
             </div>

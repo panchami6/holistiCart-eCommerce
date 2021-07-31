@@ -15,6 +15,8 @@ export function Wishlist() {
   const { wishlist } = wishlistState;
   const {userId} = useAuth();
   const [loader, setLoader] = useState(false)
+  const [loaderId, setLoaderId] = useState("");
+  const [loaderIdRemove, setLoaderIdRemove] = useState("");
 
   const cartApi = `https://holisticart.panchami6.repl.co/cart/${userId}`;
   const wishlistApi = `https://holisticart.panchami6.repl.co/wishlist/${userId}`;
@@ -83,19 +85,25 @@ export function Wishlist() {
             <button className = {item.inStock? "btn-wishlist-move": "btn-disabled-wishlist"}
               disabled={!item.inStock}
               onClick={() =>{
-                 if(!checkItemInCart(cart, item.productId)) moveToCart(item)
+                 if(!checkItemInCart(cart, item.productId)) {
+                   setLoaderId(item._id)
+                   moveToCart(item)
+                 }
                } 
                }
             >
-              {checkItemInCart(cart, item.productId) ? "Item In cart" : "Move to Cart"} 
+              {(loader && loaderId === item._id) ? "Moving" : (checkItemInCart(cart, item.productId) ? "Item In cart" : "Move to Cart")} 
             </button>
             </div>
             <div className="cart-remove">
             <button className = "btn-wishlist-remove"
-              onClick={() => removeFromWishlist(item)
+              onClick={() => {
+                setLoaderIdRemove(item._id)
+                removeFromWishlist(item)
+              } 
               }
             >
-              Remove
+              {(loader && loaderIdRemove === item._id) ? "Removing" : "Remove"}
             </button>
             </div>
             </div>

@@ -22,6 +22,7 @@ export function ProductListing() {
   const [search, setSearch] = useState("");
   const [showProducts, setShowProducts] = useState([]);
   const [loader, setLoader] = useState(false);
+  const [loaderId, setLoaderId] = useState("");
   const {userId} = useAuth();
 
   const api = "https://holisticart.panchami6.repl.co/products";
@@ -243,9 +244,8 @@ export function ProductListing() {
             key={item._id}
           >
             <img
+              className = "product-image"
               src={item.image}
-              width="100%"
-              height="180px"
               alt={item.name}
             />
             <h3> {item.name} </h3>
@@ -262,15 +262,20 @@ export function ProductListing() {
             </div>
             <button className = {item.inStock? "btn-primary" : "btn-disabled"}
             disabled={!item.inStock}
-              onClick = {() =>
+              onClick = {() => 
               {
-                if(!checkItemInCart(cart, item._id)) addtoCart(item)
+                if(!checkItemInCart(cart, item._id)) {
+                  setLoaderId(item._id)
+                  addtoCart(item)
+                }
               }
               }
-            >{checkItemInCart(cart, item._id) ? "Item In cart" : "Add to cart" }
+            >{(loader && loaderId === item._id) ? <i className="fa fa-spinner fa-spin"></i> : (checkItemInCart(cart, item._id) ? "Item In cart" : "Add to cart") }
             </button>
               <i onClick={() =>
-              { checkItemInWishlist(wishlist, item._id) ? removeFromWishlist(item)
+              {
+                checkItemInWishlist(wishlist, item._id) ? 
+                removeFromWishlist(item)
                 :
                 addToWishlist(item) } }
                 className={checkItemInWishlist(wishlist, item._id) ? "fas fa-heart wishlist-btn" : "far fa-heart wishlist-btn"}></i>

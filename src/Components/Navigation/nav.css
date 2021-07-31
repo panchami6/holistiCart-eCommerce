@@ -64,13 +64,13 @@
     background-color: black;
     z-index: 1;
   }
-
   .nav-link{
+    font-size:larger;
     padding: 0rem 0.4rem;
   }
-
+  
   .nav-Header{
-    font-size:18px;
+    font-size:16px;
     padding: 0;
   }
 
