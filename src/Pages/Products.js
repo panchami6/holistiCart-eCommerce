@@ -21,9 +21,10 @@ export function ProductListing() {
   const { wishlist } = wishlistState;
   const [search, setSearch] = useState("");
   const [showProducts, setShowProducts] = useState([]);
+  const [appLoader, setAppLoader] = useState(false)
   const [loader, setLoader] = useState(false);
   const [loaderId, setLoaderId] = useState("");
-  const {userId} = useAuth();
+  const {isUserLogin, userId} = useAuth();
 
   const api = "https://holisticart.panchami6.repl.co/products";
   const cartApi = `https://holisticart.panchami6.repl.co/cart/${userId}`;
@@ -31,9 +32,9 @@ export function ProductListing() {
 
   useEffect(() => {
     (async function () {
-      setLoader(true);
+      setAppLoader(true);
       const response = await axios.get(api);
-      setLoader(false);
+      setAppLoader(false);
       setShowProducts(response.data.products);
     })();
   }, []);
@@ -161,7 +162,7 @@ export function ProductListing() {
 
   return (
     <div className = "products-page">
-      {loader && <h1 style={{ textAlign: "center" }}>Loading...</h1>}
+      {appLoader && <i style = {{marginTop : "5rem", textAlign:"center"}} className="fas fa-spinner fa-spin fa-5x"></i>}
       <div className = "side-bar">
         <div className ="search"
         >
@@ -270,7 +271,7 @@ export function ProductListing() {
                 }
               }
               }
-            >{(loader && loaderId === item._id) ? <i className="fa fa-spinner fa-spin"></i> : (checkItemInCart(cart, item._id) ? "Item In cart" : "Add to cart") }
+            >{(loader && isUserLogin && loaderId === item._id) ? <i className="fa fa-spinner fa-spin"></i> : (checkItemInCart(cart, item._id) ? "Item In cart" : "Add to cart") }
             </button>
               <i onClick={() =>
               {
