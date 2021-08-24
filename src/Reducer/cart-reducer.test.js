@@ -147,7 +147,7 @@ describe("testing cart operations on cart reducer", () =>{
         })
     })
 
-    it("should increase quantity of a product by one", () => {
+    test("should increase quantity of a product by one", () => {
 
         const action = {
             type: "INCREASE_QUANTITY",
@@ -208,7 +208,7 @@ describe("testing cart operations on cart reducer", () =>{
 
     })
 
-    it("should decrease quantity of a product by one", () => {
+    test("should decrease quantity of a product by one", () => {
 
         const action = {
             type: "DECREASE_QUANTITY",
